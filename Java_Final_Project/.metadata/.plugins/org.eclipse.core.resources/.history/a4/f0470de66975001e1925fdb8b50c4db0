@@ -1,0 +1,19 @@
+package com.system.exchange.controllers;
+
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class AdminController {
+
+    @GetMapping("/admin/login")
+    public String adminLoginPage() {
+        return "admin/login"; // Return the name of your admin login JSP page (e.g., login.jsp)
+    }
+    
+    // Implement login form submission and authentication logic here
+    // You may use Spring Security or custom logic to handle admin authentication
+}
+

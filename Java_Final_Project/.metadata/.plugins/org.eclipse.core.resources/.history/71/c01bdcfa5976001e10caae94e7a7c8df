@@ -1,0 +1,64 @@
+package com.system.billing.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.system.billing.models.User;
+import com.system.billing.repositories.UserRepository;
+
+
+
+
+
+@Controller
+public class UserController {
+
+    @Autowired
+     UserRepository userRepository; // UserRepository for fetching user details
+
+    @GetMapping("/login")
+    public String login() {
+        return "login"; // Return the login page
+    }
+
+    @PostMapping("/login")
+    public String loginPost(@RequestParam String username, @RequestParam String password, Model model) {
+        // Authenticate the user based on your logic (e.g., check username and password)
+        User user = userRepository.findByUsername(username);
+
+        if (user != null && user.getPassword().equals(password)) {
+            String role = user.getRole();
+
+            if ("ADMIN".equals(role)) {
+                return "redirect:/admin/dashboard";
+            } else if ("OPERATOR".equals(role)) {
+                return "redirect:/operator/dashboard";
+            } else if ("DOCTOR".equals(role)) {
+                return "redirect:/doctor/dashboard";
+            }
+        }
+       
+        model.addAttribute("Error", "Invalid Credentials"); 
+        return "Login Failed";
+    }
+
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard() {
+        return "adminDashboard"; // Return the admin dashboard page
+    }
+
+    @GetMapping("/operator/dashboard")
+    public String operatorDashboard() {
+        return "operatorDashboard"; // Return the operator dashboard page
+    }
+
+    @GetMapping("/doctor/dashboard")
+    public String doctorDashboard() {
+        return "doctorDashboard"; // Return the doctor dashboard page
+    }
+}

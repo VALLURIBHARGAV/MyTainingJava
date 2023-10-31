@@ -1,0 +1,45 @@
+package com.system.exchange.controllers;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import com.system.exchange.model.Currencies;
+import com.system.exchange.services.CurrencyService;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/currencies")
+public class CurrencyController {
+
+    @Autowired
+    private CurrencyService currencyService;
+
+    @GetMapping
+    public List<Currencies> getAllCurrencies() {
+        return currencyService.getAllCurrencies();
+    }
+
+    @GetMapping("/{code}")
+    public Optional<Currencies> getCurrencyByCode(@PathVariable String code) {
+        return currencyService.getCurrencyByCode(code);
+    }
+
+    @PostMapping
+    public Currencies createCurrency(@RequestBody Currencies currency) {
+        return currencyService.createCurrency(currency);
+    }
+
+    @PutMapping
+    public Currencies updateCurrency(@RequestBody Currencies currency) {
+        return currencyService.updateCurrency(currency);
+    }
+
+    @DeleteMapping("/{code}")
+    public void deleteCurrency(@PathVariable String code) {
+        currencyService.deleteCurrency(code);
+    }
+}

@@ -1,0 +1,17 @@
+package streamApi;
+
+public class StreamAPIDemo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int nums[] = {1,9,4,5,345,34,343};
+		int min = nums[0];
+		for(int i=1;i<nums.length;i++) {
+			if(nums[i]<min)
+					min=nums[i];
+		System.out.println("Min= " + min);
+		}
+
+	}
+
+}

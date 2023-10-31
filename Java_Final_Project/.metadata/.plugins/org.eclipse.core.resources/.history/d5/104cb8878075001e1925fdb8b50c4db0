@@ -1,0 +1,39 @@
+package com.system.billing.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.system.billing.models.User;
+import com.system.billing.services.UserService;
+
+@Controller
+public class RegisterController {
+
+  private final UserService userService;
+
+  public RegisterController(UserService userService) {
+    this.userService = userService;
+  }
+
+  @GetMapping("/register")
+  public String registerPage() {
+    return "register";
+  }
+
+  @PostMapping("/register")
+  public String register(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
+    boolean isValid = userService.validateRegisterForm(username, password, role);
+    if (!isValid) {
+      return "redirect:/register";
+    }
+
+    User user = new User(username, password, role);
+    userService.registerUser(user);
+
+    return "redirect:/login";
+  }
+}
+
+

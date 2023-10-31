@@ -1,0 +1,71 @@
+package com.system.billing.models;
+import jakarta.persistence.*;
+ 
+@Entity
+@Table(name = "beds")  // Specify the table name in the database
+public class Bed{
+ 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")  // Map to the 'id' column in the 'patients' table
+    private int bedid;
+    
+	@Column(name = "bedno")
+    private int bedno;
+    
+    @Column(name = "bedstatus")
+    private String bedstatus;
+    
+    @Column(name = "ward")
+    private String ward;
+    
+    @OneToOne(mappedBy = "bed")
+    private Patient patient;
+    
+    public Bed() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+    
+    public Bed(int bedid, int bedno, String bedstatus, String ward) {
+		super();
+		this.bedid = bedid;
+		this.bedno = bedno;
+		this.bedstatus = bedstatus;
+		this.ward = ward;
+	}
+    
+    public int getBedid() {
+		return bedid;
+	}
+
+	public void setBedid(int bedid) {
+		this.bedid = bedid;
+	}
+
+	public int getBedno() {
+		return bedno;
+	}
+
+	public void setBedno(int bedno) {
+		this.bedno = bedno;
+	}
+
+	public String getBedstatus() {
+		return bedstatus;
+	}
+
+	public void setBedstatus(String bedstatus) {
+		this.bedstatus = bedstatus;
+	}
+
+	public String getWard() {
+		return ward;
+	}
+
+	public void setWard(String ward) {
+		this.ward = ward;
+	}
+
+}
+

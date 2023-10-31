@@ -1,0 +1,52 @@
+package jdbcDemos;
+
+import java.util.*;
+import java.sql.*;
+
+public class JdbcEntryApp {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		
+		
+		
+		System.out.println("Enter You Choice: ");
+		
+		//int choice = sc.nextInt();
+//		while(true) {
+//			System.out.println("Welcome to JDBC Entry Application :");
+//			System.out.println("1. Insert");
+//			System.out.println("2. Update");
+//			System.out.println("3. Delete");
+//		}
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/","root","VIBV!*1998*");
+		PreparedStatement ps = c.prepareStatement("insert into parts(pid,pname,color) values(?,?,?)");
+		
+		int pid = sc.nextInt();
+		String pname = sc.next();
+		String color = sc.next();
+		ps.setInt(1,pid);
+		ps.setString(2, pname);
+		ps.setString(3, color);
+		
+		ResultSet rs = ps.executeQuery();
+		
+		while (rs.next()) {
+			System.out.println("Part Id: " + rs.getInt(1));
+			System.out.println("Part Name: " + rs.getString(2) );
+			System.out.println("Color: " + rs.getDate(3));
+
+			System.out.println("-------------------------");
+		}
+
+		sc.close();
+		
+		
+		
+		
+
+	}
+
+}

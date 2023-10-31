@@ -1,0 +1,108 @@
+package com.system.billing.controllers;
+
+
+import com.system.billing.models.Bill;
+import com.system.billing.models.Patient;
+import com.system.billing.repositories.BillRepository;
+import com.system.billing.services.BillService;
+import com.system.billing.services.PatientService;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/bills")
+public class BillController {
+	@Autowired
+    BillService billService;
+	@Autowired
+	PatientService patientService;
+	@Autowired
+	BillRepository billRepository;
+    
+    public BillController(BillService billService) {
+        this.billService = billService;
+    }
+
+    @GetMapping
+    public String listBills(Model model) {
+        model.addAttribute("bills", billService.getAllBills());
+        return "listbill";
+    }
+
+    @GetMapping("/{id}")
+    public String viewBill(@PathVariable int id, Model model) {
+        Bill bill = billService.getBillById(id).orElse(null);
+        model.addAttribute("bill", bill);
+        return "viewbill";
+    }
+
+    @GetMapping("/add")
+    public String addBillForm(Model model) {
+        model.addAttribute("bill", new Bill());
+        return "addbill";
+    }
+
+    @PostMapping("/add")
+    public String addBill(@ModelAttribute Bill bill) {
+        billService.createBill(bill);
+        return "redirect:/bills";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editBillForm(@PathVariable int id, Model model) {
+        Bill bill = billService.getBillById(id).orElse(null);
+        model.addAttribute("bill", bill);
+        return "editbill";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editBill(@PathVariable int id, @ModelAttribute Bill bill) {
+        billService.updateBill(bill);
+        return "redirect:/bills";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteBill(@PathVariable int id) {
+        billService.deleteBill(id);
+        return "redirect:/bills";
+    }
+    
+    @GetMapping("/generateBill")
+    public String showGenerateBillForm(Model model ) {
+        // Add any necessary data to the model, if needed
+    	model.addAttribute("bill" , new Bill());
+        return "generatebill"; // Assuming "generatebill.jsp" is your JSP view
+    }
+    
+    @PostMapping("/generateBill")
+    public String calculateTotalAmount(@RequestParam Long patientId, Model model) {
+        // Retrieve the charges from the bill table for the specified patient ID
+        List<Bill> bills = billRepository.findByPatientId(patientId);
+
+        double bedCharges = 0.0;
+        double wardCharges = 0.0;
+        double treatmentCharges = 0.0;
+
+        // Calculate the total charges for the patient
+        for (Bill bill : bills) {
+            bedCharges += bill.getBedCharges();
+            wardCharges += bill.getWardCharges();
+            treatmentCharges += bill.getTreatmentCharges();
+        }
+
+        // Calculate the total amount
+        double totalAmount = bedCharges + wardCharges + treatmentCharges;
+
+        // Add the total amount to the model for display in the JSP
+        model.addAttribute("totalAmount", totalAmount);
+
+        // Redirect to the view page (generatebill.jsp) to display the generated bill
+        return "generatebill";
+    }
+}
+

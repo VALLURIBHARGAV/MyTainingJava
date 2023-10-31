@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    <%@taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Edit Patient</title>
+</head>
+<body>
+    <h1>Edit Patient</h1>
+    <spring:form action="/edit" method="post" modelAttribute="patient">
+        <spring:label path="name">Patient name:</spring:label>
+        <spring:input path="name" /><br/>
+        <spring:label path="gender">Gender:</spring:label>
+        <spring:input path="gender"/><br/>
+        <spring:label path="age">Age:</spring:label>
+        <spring:input path="age" /><br/>
+        <spring:label path="healthissue">Health Issue:</spring:label>
+        <spring:input path="healthissue" /><br/>
+        <spring:label path="address">Address:</spring:label>
+        <spring:input path="address" /><br/>
+        <spring:button>SUBMIT</spring:button>
+    </spring:form>
+    <a href="/list">Back to List</a>
+</body>
+</html>

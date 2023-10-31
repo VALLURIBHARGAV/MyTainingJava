@@ -1,0 +1,5 @@
+package com.system.exchange.services;
+
+public class CurrencyService {
+
+}

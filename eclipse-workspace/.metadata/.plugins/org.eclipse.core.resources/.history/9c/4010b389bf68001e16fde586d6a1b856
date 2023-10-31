@@ -1,0 +1,91 @@
+package pizzaHut;
+
+import java.util.*;
+
+public class PizzaHut {
+
+	public static void main(String[] args) {
+		/*
+		 * Customer custObj = new Customer(); custObj.init(); custObj.display();
+		 * custObj.setCustNo(23122); custObj.setCustName("Rajesh");
+		 * custObj.setCustAddr("Bangalore");
+		 * 
+		 * System.out.println("\n"); System.out.println("Using Setters and Getters: ");
+		 * System.out.println("Customer Number is: " + custObj.getCustNo());
+		 * System.out.println("Customer Name is: " + custObj.getCustName());
+		 * System.out.println("Customer Address is: " + custObj.getCustAddr());
+		 */
+		Scanner scanner = new Scanner(System.in);
+
+		// Task 1
+		Customer customer = new Customer();
+		// Task 2
+		customer.display();
+		// Task 3
+		Customer.printBillNo();
+
+		// Task 4
+		// Creating CustomerReport object
+		CustomerReport report = new CustomerReport();
+
+		// Adding customers based on user input
+		for (int i = 0; i < 5; i++) {
+			System.out.println("Enter details for Customer " + (i + 1));
+			System.out.print("Enter Customer Number: ");
+			int custNo = scanner.nextInt();
+			System.out.print("Enter Customer Name: ");
+			String custName = scanner.next();
+			System.out.print("Enter Customer Address: ");
+			String custAddr = scanner.next();
+
+			// Creating Customer object
+			Customer newCustomer = new Customer(custNo, custName, custAddr);
+
+			// Adding customer to the report
+			report.addCustomer(newCustomer);
+		}
+
+		// Printing the customer report
+		System.out.println("Customer Report:");
+		report.printList();
+
+		// Task 5
+		// Choose Italian or Mexican pizza
+		// Create an object of the appropriate class
+		// Print details of the pizza
+
+		System.out.println("Choose Pizza Type: ");
+		System.out.println("1. Italian Pizza");
+		System.out.println("2. Mexican Pizza");
+		System.out.print("Enter your choice: ");
+		int pizzaChoice = scanner.nextInt();
+
+		System.out.print("Enter Pizza Name: ");
+		String pizzaName = scanner.next();
+
+		System.out.print("Enter Pizza Type (Veg/Non-Veg): ");
+		String pizzaType = scanner.next();
+
+		System.out.print("Enter Pizza Size (Small/Medium): ");
+		String pizzaSize = scanner.next();
+
+		System.out.print("Enter Pizza Toppings: ");
+		String pizzaToppings = scanner.next();
+
+		System.out.print("Enter Pizza Cost: ");
+		int pizzaCost = scanner.nextInt();
+
+		Pizza pizza;
+		if (pizzaChoice == 1) {
+			pizza = new ItalianPizza(pizzaType, pizzaToppings, pizzaName, 15, pizzaCost, pizzaSize);
+		} else {
+			pizza = new MexicanPizza(pizzaType, pizzaToppings, pizzaName, 20, pizzaCost, pizzaSize);
+		}
+
+		// Print details of the pizza
+		System.out.println("Pizza Details:");
+		System.out.println(pizza.toString());
+		scanner.close();
+	}
+
+}

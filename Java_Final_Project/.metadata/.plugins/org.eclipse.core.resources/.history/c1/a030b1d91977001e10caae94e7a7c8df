@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Accommodation List</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        
+        h1 {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #007bff;
+            padding: 4px;
+        }
+        
+        a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+        
+        a:active {
+            background-color: #0056b3;
+        }
+        
+        a:visited {
+            color: #0091ff;
+        }
+        
+        a:focus {
+            outline: none;
+        }
+        
+        a:focus:active {
+            background-color: #0056b3;
+            color: #fff;
+        }
+        
+        a:visited:focus {
+            outline: none;
+        }
+        
+        .add-patient-link {
+            display: block;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<% int value=(int)request.getAttribute("id"); %>
+    <h2>EditDetails</h2>
+   <form:form modelAttribute="bed" action="/patient/editBed/${id}" method="post">
+    <label for="bedNo">Bed Number:</label>
+    <input type="number" name="${bedNo}" id="bedNo" required/><br>
+    <label for="bedStatus">Bed Status:</label>
+    <form:radiobutton path="bedStatus" value="Occupied" label="Occupied" name="${bedStatus}"/>
+    <form:radiobutton path="bedStatus" value="Available" label="Available" name="${bedStatus}/><br>
+    <label for="location">Location:</label>
+    <select name="location" id="location">
+        <option value="ICU">ICU</option>
+        <option value="General">General</option>
+        <option value="Ward">Ward</option>
+    </select><br>
+    <input  value="<%=value%>" type="hidden"/>
+    <input type="submit" value="Register">
+</form:form>
+<a href="/patient/bedList">Back to List</a>
+</body>
+</html>

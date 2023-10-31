@@ -1,0 +1,30 @@
+package jdbcDemos;
+
+import java.sql.*;
+public class JDBCDemo  {
+	public static void main(String[] args) 
+	 {
+		// TODO Auto-generated method stub
+		
+		
+		try {
+			Class.forName("com.sql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			Connection con = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/supplier","root","VIBV!*1998*");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Connection Established....");
+//		Statement s = con.createStatement();
+//		int res=s.executeUpdate("insert into parts(pid,pname,color) values(16,'Mouse','Black')");
+//		System.out.println(res + " record(s) inserted..");
+		
+	}
+
+}

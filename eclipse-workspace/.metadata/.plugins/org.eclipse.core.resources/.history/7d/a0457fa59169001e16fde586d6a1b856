@@ -1,0 +1,23 @@
+package jdbcDemos;
+
+import java.sql.*;
+public class JDBCDemo {
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/supplier","root","VIBV!*1998*");
+		System.out.println("Connection Established....");
+		Statement s = con.createStatement();
+		//int res=s.executeUpdate("insert into parts(pid,pname,color) values(16,'Mouse','Black')");
+		//System.out.println(res + " record(s) inserted..");
+		 //res1=s.execute("select * from parts");
+		System.out.println(s.execute("select * from parts"));
+		
+		
+	}
+
+}

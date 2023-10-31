@@ -1,0 +1,5 @@
+package webmvc;
+
+public class DiapatcherServletConfiguration {
+
+}

@@ -1,0 +1,66 @@
+package collections;
+
+import java.util.HashMap;
+import java.util.Map;
+
+class Student {
+    private HashMap<String, String> empNames = new HashMap<>();
+
+    public void setNames() {
+        // Add sample data for demonstration
+        empNames.put("101", "John");
+        empNames.put("102", "Alice");
+        empNames.put("103", "Bob");
+    }
+
+    public void printNames() {
+        System.out.println("Names in HashMap:");
+        for (Map.Entry<String, String> entry : empNames.entrySet()) {
+            System.out.println("Roll No: " + entry.getKey() + ", Name: " + entry.getValue());
+        }
+    }
+
+    public void getName(String key) {
+        String name = empNames.get(key);
+        if (name != null) {
+            System.out.println("Name for Roll No " + key + ": " + name);
+        } else {
+            System.out.println("No name found for Roll No " + key);
+        }
+    }
+
+    public void printNamesKeySet() {
+        System.out.println("Names using KeySet:");
+        for (String key : empNames.keySet()) {
+            System.out.println("Roll No: " + key + ", Name: " + empNames.get(key));
+        }
+    }
+
+    public void printSize() {
+        System.out.println("Size of HashMap: " + empNames.size());
+    }
+
+    public void remove(String key) {
+        String removedName = empNames.remove(key);
+        if (removedName != null) {
+            System.out.println("Removed: Roll No " + key + ", Name: " + removedName);
+        } else {
+            System.out.println("No entry found for Roll No " + key);
+        }
+    }
+}
+
+public class TestHashMap {
+    public static void main(String[] args) {
+        Student student = new Student();
+
+        student.setNames();
+        student.printNames();
+        student.getName("102");
+        student.printNamesKeySet();
+        student.printSize();
+        student.remove("103");
+        student.printNames();
+    }
+}
+

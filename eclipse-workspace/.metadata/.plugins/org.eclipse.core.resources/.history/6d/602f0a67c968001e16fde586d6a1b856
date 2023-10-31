@@ -1,0 +1,40 @@
+package pizzaHut;
+
+import java.util.Date;
+import java.util.Scanner;
+
+public class Reception {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Task 1: Accept values from the user to create an order object
+        System.out.println("Enter order details:");
+        System.out.print("Order Number: ");
+        int orderNo = scanner.nextInt();
+
+        // Assuming you want to use the current date as the order date
+        Date orderDate = new Date();
+
+        System.out.print("Cost: ");
+        int cost = scanner.nextInt();
+        System.out.print("Customer Name: ");
+        String custName = scanner.next();
+        System.out.print("Customer Address: ");
+        String custAddress = scanner.next();
+        System.out.print("Approximate Distance for Delivery (in km): ");
+        int approxDistance = scanner.nextInt();
+
+        // Creating Order object
+        Order order = new Order(orderNo, orderDate, cost, custName, custAddress, approxDistance);
+
+        // Task 2: Reply to the user request by calling the delivery() method
+        System.out.println("Order Delivery Status:");
+        if (order.delivery()) {
+            System.out.println("Order is deliverable.");
+        } else {
+            System.out.println("Sorry, home delivery is not available for this distance.");
+        }
+        scanner.close();
+    }
+}
+

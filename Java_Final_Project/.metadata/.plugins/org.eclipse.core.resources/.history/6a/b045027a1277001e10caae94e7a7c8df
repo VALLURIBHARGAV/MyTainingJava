@@ -1,0 +1,62 @@
+package com.system.billing.models;
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+public class Bed {
+    @Id
+    private long bedNo;
+    private String bedStatus;
+    private String location; 
+    
+
+    public Bed() {
+        super();
+    }
+
+    
+
+	public Bed(long bedNo, String bedStatus, String location) {
+		super();
+		this.bedNo = bedNo;
+		this.bedStatus = bedStatus;
+		this.location = location;
+	}
+
+
+
+	public long getBedNo() {
+		return bedNo;
+	}
+
+
+	public void setBedNo(long bedNo) {
+		this.bedNo = bedNo;
+	}
+
+
+	public String getBedStatus() {
+		return bedStatus;
+	}
+
+
+	public void setBedStatus(String bedStatus) {
+		this.bedStatus = bedStatus;
+	}
+
+
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+    
+}
+    
+
+    

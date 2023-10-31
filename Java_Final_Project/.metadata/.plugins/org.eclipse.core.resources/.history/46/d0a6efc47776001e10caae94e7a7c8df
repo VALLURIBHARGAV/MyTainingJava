@@ -1,0 +1,23 @@
+package com.system.billing.controllers;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import com.system.billing.models.User;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class OperatorController {
+
+    @GetMapping("/operator/dashboard")
+    public String operatorDashboard(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user != null && "OPERATOR".equals(user.getRole())) {
+            return "operatorDashboard";
+        } else {
+            return "accessDenied"; // Handle unauthorized access
+        }
+    }
+}
+

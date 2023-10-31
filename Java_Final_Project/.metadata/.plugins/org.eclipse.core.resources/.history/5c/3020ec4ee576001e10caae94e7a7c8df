@@ -1,0 +1,65 @@
+package com.system.billing.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.system.billing.models.Patient;
+import com.system.billing.services.PatientService;
+ 
+
+
+@Controller
+@RequestMapping("/patient")
+public class PatientController {
+	
+	@Autowired
+	PatientService service;
+	
+	
+	
+	@GetMapping("/list")
+    public String listPatient(Model model) {
+        Iterable<Patient> patients = service.getAllPatient();
+        model.addAttribute("patients", patients);
+        return "PatientList";
+    }
+	
+	@GetMapping("/add")
+    public String showAddPatient(Model model) {
+        model.addAttribute("patient", new Patient());
+        return "addPatientForm";
+    }
+
+    @PostMapping("/add")
+    public String addPatient(Patient patient) {
+        service.addPatient(patient);
+        return "redirect:/patient/list";
+    }
+    
+    @GetMapping("/edit/{id}")
+    public String showEditPatient(@PathVariable int id, Model model) {
+        Patient patient = service.getPatientById(id);
+        model.addAttribute("patient", patient);
+        return "editPatientForm";
+    }
+
+    @PostMapping("/edit/")
+    public String editPatient( Patient patient) {
+        service.addPatient(patient);
+        return "redirect:/patient/list";
+    }
+    
+    @GetMapping("/delete/{id}")
+    public String deletePatient(@PathVariable int id) {
+        service.deletePatient(id);
+        return "PatientList";
+    }
+
+
+	
+}

@@ -1,0 +1,39 @@
+package com.system.billing.services;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.system.billing.models.Bed;
+import com.system.billing.repositories.BedRepository;
+
+@Service
+public class BedService {
+	@Autowired
+	BedRepository bedRepository;
+
+	public List<Bed> getAllBeds() {
+		ArrayList<Bed> bedList = new ArrayList<Bed>();
+		bedRepository.findAll().forEach(bed -> bedList.add(bed));
+		return bedList;
+	}
+
+	public Bed getBedById(long bedNo) {
+		return bedRepository.findById(bedNo).orElse(null);
+	}
+
+	public void addBed(Bed bd) {
+		bedRepository.save(bd);
+	}
+
+	public void updateBed(Bed bd) {
+		bedRepository.save(bd);
+	}
+
+	public void deleteBed(long id) {
+		bedRepository.deleteById(id);
+	}
+
+}

@@ -1,0 +1,120 @@
+package com.assignment.hibernateTest;
+
+
+import java.util.List;
+import java.util.Scanner;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+
+import com.assignment.config.HibernateConfig;
+import com.assignment.entities.Employee;
+
+public class CredOperations {
+	
+	public  void insertEmployee(Scanner scanner) {
+        System.out.print("Enter first name: ");
+        String EmpName = scanner.nextLine();
+
+        System.out.print("Enter last name: ");
+        Double Salary = scanner.nextDouble();
+
+
+        Employee employee = new Employee();
+        employee.setEmpName(EmpName);
+        employee.setSalary(Salary);
+        
+
+        saveEmployee(employee);
+    }
+	public void updateEmployee(Scanner scanner) {
+        System.out.print("Enter the ID of the employee to update: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume the newline character
+
+        SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+  	    Session session=sessionFactory.openSession();
+        session.beginTransaction();
+
+        Employee employee = session.get(Employee.class, id);
+
+        if (employee == null) {
+            System.out.println("Employee not found with ID " + id);
+        } else {
+            System.out.print("Enter new Employee Name: ");
+            employee.setEmpName(null);
+
+            System.out.print("Enter new Salary: ");
+            employee.setSalary(scanner.nextDouble());
+
+            session.merge(employee);
+            session.getTransaction().commit();
+            System.out.println("Employee updated successfully.");
+        }
+
+        session.close();
+    }
+
+    
+	public void deleteEmployee(Scanner scanner) {
+        System.out.print("Enter the ID of the employee to delete: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume the newline character
+
+        SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+  	    Session session=sessionFactory.openSession();
+        session.beginTransaction();
+
+        Employee employee = session.get(Employee.class, id);
+
+        if (employee == null) {
+            System.out.println("Employee not found with ID " + id);
+        } else {
+            session.remove(employee);
+            session.getTransaction().commit();
+            System.out.println("Employee deleted successfully.");
+        }
+
+        session.close();
+    }
+
+    public void searchEmployee(Scanner scanner) {
+        System.out.print("Enter a keyword to search for employees: ");
+        String keyword = scanner.nextLine();
+
+        SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+  	    Session session=sessionFactory.openSession();
+
+        Query query = session.createQuery("FROM Employee " +
+                "WHERE empName LIKE :keyword OR city LIKE :keyword OR country LIKE :keyword", Employee.class);
+        query.setParameter("keyword", "%" + keyword + "%");
+
+        List<Employee> employees = query.list();
+
+        if (employees.isEmpty()) {
+            System.out.println("No matching employees found.");
+        } else {
+            System.out.println("Matching Employees:");
+            for (Employee employee : employees) {
+                System.out.println(employee.getEmpId() + " - " + employee.getEmpName() +  " - " + employee.getSalary());
+            }
+        }
+
+        session.close();
+    }
+
+    public static void saveEmployee(Employee employee) {
+    	SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+  	    Session session=sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.persist(employee);
+
+        session.getTransaction().commit();
+        System.out.println("Employee saved successfully.");
+
+        session.close();
+    }
+}
+

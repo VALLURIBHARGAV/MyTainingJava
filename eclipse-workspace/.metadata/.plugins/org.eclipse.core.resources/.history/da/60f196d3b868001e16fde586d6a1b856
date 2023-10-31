@@ -1,0 +1,63 @@
+package pizzaHut;
+
+public class Customer {
+	private int custNo;
+	private String custName;
+	private String custAddr;
+	private static int billNo;
+	
+	static {
+		billNo=1;
+	}
+	
+	
+	public void init() {
+		this.custNo=673458235;
+		this.custName="Ramesh";
+		this.custAddr="Chennai";
+	}
+	public void display() {
+		System.out.println("Customer Number is: " + custNo);
+		System.out.println("Customer Name is: " + custName);
+		System.out.println("Customer Address is: " + custAddr);
+	}
+	
+	public int getCustNo() {
+		return custNo;
+	}
+	public void setCustNo(int custNo) {
+		this.custNo = custNo;
+	}
+	public String getCustName() {
+		return custName;
+	}
+	public void setCustName(String custName) {
+		this.custName = custName;
+	}
+	public String getCustAddr() {
+		return custAddr;
+	}
+	public void setCustAddr(String custAddr) {
+		this.custAddr = custAddr;
+	}
+	
+	public static void printBillNO() {
+		System.out.println("Bill No: "+ billNo);
+	}
+	
+	public Customer() {
+		custNo=2134;
+		custName="Krishna";
+		custAddr="Anakapalle";
+	}
+	
+	public Customer(int custNo, String custName, String custAddr) {
+		super();
+		this.custNo = custNo;
+		this.custName = custName;
+		this.custAddr = custAddr;
+		billNo++;
+	}
+}
+
+

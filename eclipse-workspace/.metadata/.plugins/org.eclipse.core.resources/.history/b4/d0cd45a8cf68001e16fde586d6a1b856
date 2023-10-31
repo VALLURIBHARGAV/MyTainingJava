@@ -1,0 +1,73 @@
+package pizzaHut;
+
+import java.util.*;
+
+public class PizzaHut {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+
+		Customer customer = new Customer();
+
+		customer.display();
+		Customer.printBillNo();
+
+		CustomerReport report = new CustomerReport();
+
+		for (int i = 0; i < 2; i++) {
+			System.out.println("Enter details for Customer " + (i + 1));
+			System.out.print("Enter Customer Number: ");
+			int custNo = scanner.nextInt();
+			System.out.print("Enter Customer Name: ");
+			String custName = scanner.next();
+			System.out.print("Enter Customer Address: ");
+			String custAddr = scanner.next();
+
+			Customer newCustomer = new Customer(custNo, custName, custAddr);
+
+			report.addCustomer(newCustomer);
+		}
+
+		System.out.println("Customer Report:");
+		report.printList();
+		
+		while(true) {
+		System.out.println("Choose Pizza Type: ");
+		System.out.println("1. Italian Pizza");
+		System.out.println("2. Mexican Pizza");
+		System.out.println("3. Exit");
+		System.out.print("Enter your choice: ");
+		int pizzaChoice = scanner.nextInt();
+
+		if (pizzaChoice == 3) {
+            System.out.println("Exiting PizzaHut. Thank you!");
+            break;
+        }
+		System.out.print("Enter Pizza Name: ");
+		String pizzaName = scanner.next();
+
+		System.out.print("Enter Pizza Type (Veg/Non-Veg): ");
+		String pizzaType = scanner.next();
+
+		System.out.print("Enter Pizza Size (Small/Medium): ");
+		String pizzaSize = scanner.next();
+
+		System.out.print("Enter Pizza Toppings: ");
+		String pizzaToppings = scanner.next();
+
+		System.out.print("Enter Pizza Cost: ");
+		int pizzaCost = scanner.nextInt();
+
+		Pizza pizza;
+		if (pizzaChoice == 1) {
+			pizza = new ItalianPizza(pizzaType, pizzaToppings, pizzaName, 15, pizzaCost, pizzaSize);
+		} else {
+			pizza = new MexicanPizza(pizzaType, pizzaToppings, pizzaName, 20, pizzaCost, pizzaSize);
+		}
+
+		System.out.println("Pizza Details:");
+		System.out.println(pizza.toString());
+		scanner.close();
+	}
+
+}

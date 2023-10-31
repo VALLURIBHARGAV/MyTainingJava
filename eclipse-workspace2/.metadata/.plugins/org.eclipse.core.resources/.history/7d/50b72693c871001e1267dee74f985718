@@ -1,0 +1,23 @@
+package com.assignment.hibernateTest;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import com.assignment.config.HibernateConfig;
+import com.assignment.entities.Employee;
+
+public class InsertEmployee {
+	 public static void saveEmployee(Employee employee) {
+		 SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+		  Session session=sessionFactory.openSession();
+	        session.beginTransaction();
+
+	        session.persist(employee);
+
+	        session.getTransaction().commit();
+	        System.out.println("Employee saved successfully.");
+
+	        session.close();
+	    }
+
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Online Shopping</title>
+    <meta charset="ISO-8859-1">
+    <title>Online Shopping</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        center {
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+        }
+
+        form {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type='text'],
+        input[type='password'] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        input[type='submit'] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type='submit']:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+	<center>
+		<h1> Welcome to Online Shopping Website </h1>
+	    <h2>Enter Your Details to Login</h2>
+
+<form action="/OnlineShopping/LoginServlet" method="post">
+	<b> User Name </b> &nbsp;&nbsp; <input type="text" name="username" required/><br> <br>
+	<b> PassWord </b> &nbsp;&nbsp;<input type="password" name="password" required/> <br> <br>
+	<input type="submit" value="Login"  >
+	
+</form>
+	</center>
+</body>
+</html>

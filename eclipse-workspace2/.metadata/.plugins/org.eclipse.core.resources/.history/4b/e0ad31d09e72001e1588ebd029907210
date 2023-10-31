@@ -1,0 +1,128 @@
+package com.example.demo.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.entities.Account;
+import com.example.demo.entities.User;
+import com.example.demo.repositories.AccountRespository;
+
+@Service
+public class BankingService {
+	@Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private AccountRespository accountRepository;
+    
+    public User createUser(String userId, String password) {
+        User user = new User(userId, password);
+        userRepository.save(user);
+
+        Account account = new Account(generateAccountNumber(), 0.0);
+        account.setUser(user);
+        accountRepository.save(account);
+
+        return user;
+    }
+    private String generateAccountNumber() {
+        // Generate a unique account number using a more robust method in a real application
+        return "ACCT-" + System.currentTimeMillis();
+    }
+
+    // Login using user ID and password
+    public boolean login(String userId, String password) {
+        User user = userRepository.findByUserIdAndPassword(userId, password);
+        return user != null;
+    }
+    
+    public boolean withdraw(String currentUserId, double amount) {
+        User user = userRepository.findByUserId(currentUserId);
+        if (user == null) {
+            return false;
+        }
+
+        Account account = accountRepository.findByUserId(user.getUId());
+        if (account == null) {
+            return false;
+        }
+
+        double currentBalance = account.getBalance();
+        if (currentBalance >= amount) {
+            account.setBalance(currentBalance - amount);
+            accountRepository.save(account);
+            return true;
+        } else {
+            System.out.println("Insufficient funds in the account.");
+            return false;
+        }
+    }
+
+    // Deposit money to the current user's account
+    public boolean deposit(String currentUserId, double amount) {
+        User user = userRepository.findByUserId(currentUserId);
+        if (user == null) {
+            return false;
+        }
+
+        Account account = accountRepository.findByUserId(user.getUId());
+        if (account == null) {
+            return false;
+        }
+
+        double currentBalance = account.getBalance();
+        account.setBalance(currentBalance + amount);
+        accountRepository.save(account);
+        return true;
+    }
+
+    // Transfer money from the current user's account to the destination account
+    public boolean transfer(String currentUserId, String destinationAccountNumber, double amount) {
+        User user = userRepository.findByUserId(currentUserId);
+        if (user == null) {
+            return false;
+        }
+
+        Account sourceAccount = accountRepository.findByUserId(user.getUId());
+        if (sourceAccount == null) {
+            return false;
+        }
+
+        Account destinationAccount = accountRepository.findByAccountNumber(destinationAccountNumber);
+        if (destinationAccount == null) {
+            return false;
+        }
+
+        double sourceBalance = sourceAccount.getBalance();
+        if (sourceBalance >= amount) {
+            sourceAccount.setBalance(sourceBalance - amount);
+            destinationAccount.setBalance(destinationAccount.getBalance() + amount);
+            accountRepository.save(sourceAccount);
+            accountRepository.save(destinationAccount);
+            return true;
+        } else {
+            System.out.println("Insufficient funds in the source account.");
+            return false;
+        }
+    }
+    
+    public double getBalance(String currentUserId) {
+        User user = userRepository.findByUserId(currentUserId);
+        if (user == null) {
+            System.out.println("User not found.");
+            return -1; // Indicate an error or handle it differently as needed
+        }
+
+        Account account = accountRepository.findByUserId(user.getUId());
+        if (account == null) {
+            System.out.println("Account not found.");
+            return -1; // Indicate an error or handle it differently as needed
+        }
+
+        double balance = account.getBalance();
+        System.out.println("Current balance: " + balance);
+        return balance;
+    }
+
+}

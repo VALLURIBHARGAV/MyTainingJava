@@ -1,0 +1,86 @@
+package pizzaHut;
+
+import java.util.*;
+
+public class PizzaHut {
+	
+
+	public static void main(String[] args) {
+		/*Customer custObj = new Customer();
+		custObj.init();
+		custObj.display();
+		custObj.setCustNo(23122);
+		custObj.setCustName("Rajesh");
+		custObj.setCustAddr("Bangalore");
+
+		System.out.println("\n");
+		System.out.println("Using Setters and Getters: ");
+		System.out.println("Customer Number is: " + custObj.getCustNo());
+		System.out.println("Customer Name is: " + custObj.getCustName());
+		System.out.println("Customer Address is: " + custObj.getCustAddr());
+		*/
+		Scanner sc = new Scanner(System.in);
+
+      CustomerReport customerReport = new CustomerReport(5);
+
+        for (int i = 0; i < 2; i++) {
+            System.out.println("Enter details for Customer " + (i + 1) + ":");
+            System.out.print("Customer Number: ");
+            int custNo = sc.nextInt();
+            sc.nextLine();
+            System.out.print("Customer Name: ");
+            String custName = sc.nextLine();
+            System.out.print("Customer Address: ");
+            String custAddr = sc.nextLine();
+
+            Customer customer = new Customer(custNo, custName, custAddr);
+
+           customerReport.addCustomer(customer);
+            
+        }
+        
+        System.out.println("\nCustomer Report:");
+        customerReport.printList();
+        Customer.printBillNo();
+       
+        while (true) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Italian Pizza");
+            System.out.println("2. Mexican Pizza");
+            System.out.println("3. Exit");
+
+            int choice = sc.nextInt();
+            sc.nextLine(); 
+
+            if (choice == 1) {
+                System.out.println("Enter pizza name:");
+                String name = sc.nextLine();
+                System.out.println("Enter toppings (comma-separated):");
+                String[] toppings = sc.nextLine().split(",");
+                System.out.println("Enter time for preparation (in minutes):");
+                float timeForPreparation = sc.nextFloat();
+
+                ItalianPizza italianPizza = new ItalianPizza(toppings, name, timeForPreparation);
+                System.out.println(italianPizza.toString());
+            } else if (choice == 2) {
+                System.out.println("Enter pizza name:");
+                String name = sc.nextLine();
+                System.out.println("Enter toppings (comma-separated):");
+                String[] toppings = sc.nextLine().split(",");
+                System.out.println("Enter time for preparation (in minutes):");
+                float timeForPreparation = sc.nextFloat();
+
+                MexicanPizza mexicanPizza = new MexicanPizza(toppings, name, timeForPreparation);
+                System.out.println(mexicanPizza.toString());
+            } else if (choice == 3) {
+                System.out.println("Exiting PizzaHut. Goodbye!");
+                break;
+            } else {
+                System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    
+        sc.close();
+	}
+
+}

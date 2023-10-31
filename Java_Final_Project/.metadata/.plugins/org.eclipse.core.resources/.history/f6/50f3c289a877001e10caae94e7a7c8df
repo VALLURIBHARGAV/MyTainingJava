@@ -1,0 +1,78 @@
+package com.system.billing.services;
+
+
+import com.system.billing.models.Bill;
+import com.system.billing.models.Patient;
+import com.system.billing.repositories.BillRepository;
+import com.system.billing.repositories.PatientRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class BillService {
+	
+	@Autowired
+    BillRepository billRepository;
+	@Autowired
+	PatientRepository  patientRepository;
+	
+    
+    public BillService(BillRepository billRepository) {
+        this.billRepository = billRepository;
+    }
+
+    public List<Bill> getAllBills() {
+        return billRepository.findAll();
+    }
+
+    public Optional<Bill> getBillById(int billId) {
+        return billRepository.findById(billId);
+    }
+
+    public Bill createBill(Bill bill) {
+        return billRepository.save(bill);
+    }
+
+    public Bill updateBill(Bill bill) {
+        return billRepository.save(bill);
+    }
+
+    public void deleteBill(int billId) {
+        billRepository.deleteById(billId);
+    }
+    
+    public Bill generateBillForPatient(Patient patient, Double bedCharges, Double wardCharges, Double treatmentCharges) {
+        // Calculate total charges here
+        double totalAmount = bedCharges + wardCharges + treatmentCharges;
+        double defaultBedCharges = 200;
+        double defaultWardCharges = 150;
+        double defaultTreatmentCharges = 500;
+
+        // Use the provided values if available; otherwise, use defaults
+        double actualBedCharges = bedCharges != null ? bedCharges : defaultBedCharges;
+        double actualWardCharges = wardCharges != null ? wardCharges : defaultWardCharges;
+        double actualTreatmentCharges = treatmentCharges != null ? treatmentCharges : defaultTreatmentCharges;
+
+        // Create a new bill
+        Bill bill = new Bill();
+        bill.setPatient(patient);
+        bill.setBedCharges(actualBedCharges);
+        bill.setWardCharges(actualWardCharges);
+        bill.setTreatmentCharges(actualTreatmentCharges);
+        bill.setAmount(totalAmount);
+        
+        
+
+        // You can save the bill to the database using BillRepository.save() if needed
+
+        return bill;
+    	
+    	
+    }
+    
+    }
+

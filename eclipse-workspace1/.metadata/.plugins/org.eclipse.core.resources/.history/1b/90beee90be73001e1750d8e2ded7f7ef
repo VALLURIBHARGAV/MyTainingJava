@@ -1,0 +1,18 @@
+package com.example.demo.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.example.demo.models.Product;
+
+@Controller
+public class ProductController {
+	
+	@GetMapping("/display")
+	public String displayProduct(Model model) {
+		Product myPrd = new Product(1,"Java",599);
+		model.addAttribute("product",myPrd);
+		return "displayProduct";
+	}
+}

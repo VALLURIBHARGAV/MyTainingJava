@@ -1,0 +1,57 @@
+package com.system.billing.services;
+
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.system.billing.models.User;
+import com.system.billing.repositories.UserRepository;
+
+@Service
+public class UserService {
+	  private final UserRepository userRepository;
+
+	  public UserService(UserRepository userRepository) {
+	    this.userRepository = userRepository;
+	  }
+
+	  public User login(String username, String password) {
+	    Optional<User> user = userRepository.findByUsername(username);
+	    if (user.isEmpty() || !user.get().getPassword().equals(password)) {
+	      return null;
+	    }
+
+	    return user.get();
+	  }
+
+	  public String getDashboardUrl(String role) {
+	    switch (role) {
+	      case "admin":
+	        return "/admin/dashboard";
+	      case "operator":
+	        return "/operator/dashboard";
+	      case "doctor":
+	        return "/doctor/dashboard";
+	      default:
+	        return "/login";
+	    }
+	  }
+	  
+	  public boolean validateRegisterForm(String username, String password, String role)
+	  
+	  {
+	      if (username == null || username.isEmpty() || password == null || password.isEmpty() || role == null || role.isEmpty()) {
+	        return false;
+	      }
+
+	      if (password.length() < 8) {
+	        return false;
+	      }
+
+	      return true;
+	    }
+
+	    public void registerUser(User user) {
+	      userRepository.save(user);
+	    }
+	}

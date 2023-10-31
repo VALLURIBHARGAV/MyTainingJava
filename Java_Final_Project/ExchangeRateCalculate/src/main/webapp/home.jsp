@@ -1,0 +1,45 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Welcome to the Currency Converter</h1>
+    
+    <!-- Currency Conversion Form -->
+    <form action="/converts" method="post">
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" required>
+        
+        <label for="fromCurrency">From Currency:</label>
+        <select id="fromCurrency" name="fromCurrency" required>
+            <!-- Add options for available currencies -->
+            <option>SELECT FROM CURRENCY</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="INR">INR</option>
+            <option value="GBP">GBP</option>
+            <option value="JPY">JPY</option>
+            <!-- Add more currencies as needed -->
+        </select>
+        
+        <label for="toCurrency">To Currency:</label>
+        <select id="toCurrency" name="toCurrency" required>
+            <!-- Add options for available currencies -->
+            <option>SELECT TO CURRENCY</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="INR">INR</option>
+            <option value="GBP">GBP</option>
+            <option value="JPY">JPY</option>
+            <!-- Add more currencies as needed -->
+        </select>
+        
+        <button type="submit">Convert</button>
+    </form>
+    
+    <!-- Admin Login Button -->
+    <a href="<%= request.getContextPath() %>/admin/login">Admin Login</a>
+</body>
+</html>

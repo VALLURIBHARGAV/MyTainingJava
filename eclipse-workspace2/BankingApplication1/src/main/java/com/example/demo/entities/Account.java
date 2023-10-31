@@ -1,0 +1,89 @@
+package com.example.demo.entities;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="AccountTable")
+public class Account {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long aId;
+	private String accountNumber;
+	private double balance;
+	
+	@ManyToOne
+	@JoinColumn(name="uId",referencedColumnName = "uId")
+    private User user;
+
+	
+	
+	public Account() {
+		super();
+	}
+	
+
+	public Account(long aId, String accountNumber, double balance) {
+		super();
+		this.aId = aId;
+		this.accountNumber = accountNumber;
+		this.balance = balance;
+	}
+
+
+	public Account(String accountNumber, double balance) {
+		super();
+		this.accountNumber = accountNumber;
+		this.balance = balance;
+	}
+
+
+	public long getAId() {
+		return aId;
+	}
+
+
+	public void setId(long aId) {
+		this.aId = aId;
+	}
+
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+
+	public double getBalance() {
+		return balance;
+	}
+
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Account [id=" + aId + ", accountNumber=" + accountNumber + ", balance=" + balance + "]";
+	}	
+	
+}

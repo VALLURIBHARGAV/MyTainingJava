@@ -1,0 +1,118 @@
+package com.example.demo;
+
+import java.util.Scanner;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+
+import com.example.demo.entities.User;
+import com.example.demo.repositories.AccountRespository;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.BankingService;
+
+
+@SpringBootApplication
+public class BankingApplication1 {
+
+	public static void main(String[] args) {
+		SpringApplication.run(BankingApplication1.class, args);
+	}
+		@Bean
+        CommandLineRunner demo(UserRepository userRepository, AccountRespository accountRepository){
+			return(args)->{
+        Scanner scanner = new Scanner(System.in);
+        
+        BankingService bs = new BankingService();
+	        boolean loggedIn = false;
+	        String currentUserId = null;
+
+	        while (true) {
+	            System.out.println("Banking Application Menu:");
+	            System.out.println("1. Create Account");
+	            System.out.println("2. Login");
+	            System.out.println("3. Quit");
+
+	            int choice = scanner.nextInt();
+	            scanner.nextLine();
+	            
+	            User user = new User();
+	            if (choice == 1) {
+	                // Option 1: Create an account
+	                System.out.println("Enter User ID: ");
+	                String userId = scanner.nextLine();
+	                System.out.println("Enter Password: ");
+	                String password = scanner.nextLine();
+	                bs.createUser(userId, password);
+	                System.out.println("Account created for user: " + user.getUserId());
+	            } else if (choice == 2) {
+	                // Option 2: Login
+	                System.out.println("Enter User ID: ");
+	                String userId = scanner.nextLine();
+	                System.out.println("Enter Password: ");
+	                String password = scanner.nextLine();
+	                loggedIn = bs.login(userId, password);
+	                if (loggedIn) {
+	                    currentUserId = userId;
+	                    System.out.println("Login successful!");
+	                } else {
+	                    System.out.println("Login failed. Check your credentials.");
+	                }
+	            } else if (choice == 3) {
+	                // Option 3: Quit
+	                System.exit(0);
+	            	break;
+	            }
+
+	            if (loggedIn) {
+	                while (true) {
+	                    System.out.println("Banking Options:");
+	                    System.out.println("1. Withdraw Money");
+	                    System.out.println("2. Deposit Money");
+	                    System.out.println("3. Fund Transfer");
+	                    System.out.println("4. Request Balance");
+	                    System.out.println("5. Logout");
+
+	                    int option = scanner.nextInt();
+	                    scanner.nextLine();
+
+	                    if (option == 1) {
+	                        // Implement withdrawal logic
+	                    	System.out.println("Enter the Amount to Withdraw:");
+	                    	double amount = scanner.nextDouble();
+	                    	
+	                        bs.withdraw(currentUserId, amount);
+	                    } else if (option == 2) {
+	                        // Implement deposit logic
+	                    	System.out.println("Enter the Amount to Deposit:");
+	                    	double amount = scanner.nextDouble();
+	                    	
+	                        bs.deposit(currentUserId, amount);
+	                    } else if (option == 3) {
+	                        // Implement fund transfer logic
+	                    	System.out.println("Enter the Amount to Transfer:");
+	                    	double amount = scanner.nextDouble();
+	                    	
+	                    	System.out.println("Enter the Desitination Account Number");
+	                    	String destinationAccountNumber = scanner.nextLine();
+	                        bs.transfer(currentUserId, destinationAccountNumber, amount);
+	                    } else if (option == 4) {
+	                       // Implement balance request logic
+	                    	System.out.println("Your Account Balnce is :");
+	                        bs.getBalance(currentUserId);
+	                    } else if (option == 5) {
+	                        loggedIn = false;
+	                        currentUserId = null;
+	                        System.out.println("Not Logged In!, Login to Access the Banking Services");
+	                        break;
+	                    }
+	                }
+	            }
+	        }
+	  scanner.close();
+	};
+}
+}

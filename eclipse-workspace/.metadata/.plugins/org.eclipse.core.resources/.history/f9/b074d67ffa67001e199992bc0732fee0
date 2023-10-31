@@ -1,0 +1,61 @@
+package collectionsAssignment;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+class Student implements Comparable<Student> {
+    private int rollNo;
+    private String name;
+
+    public Student(int rollNo, String name) {
+        this.rollNo = rollNo;
+        this.name = name;
+    }
+
+    public int getRollNo() {
+        return rollNo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Roll No: " + rollNo + ", Name: " + name;
+    }
+
+    @Override
+    public int compareTo(Student other) {
+        return this.name.compareTo(other.name);
+    }
+}
+
+public class StudentSortDemo {
+    public static void main(String[] args) {
+        // Create an array list of type Student
+        ArrayList<Student> studentList = new ArrayList<>();
+
+        // Store 5 student data in the array list
+        studentList.add(new Student(101, "John"));
+        studentList.add(new Student(102, "Alice"));
+        studentList.add(new Student(103, "Bob"));
+        studentList.add(new Student(104, "Charlie"));
+        studentList.add(new Student(105, "Eva"));
+
+        // Print all student data (Unsorted)
+        System.out.println("Unsorted Student Data:");
+        for (Student student : studentList) {
+            System.out.println(student);
+        }
+
+        // Call the sort() of Collections class to sort student data
+        Collections.sort(studentList);
+
+        // Again print all student data (Sorted)
+        System.out.println("\nSorted Student Data:");
+        for (Student student : studentList) {
+            System.out.println(student);
+        }
+    }
+}

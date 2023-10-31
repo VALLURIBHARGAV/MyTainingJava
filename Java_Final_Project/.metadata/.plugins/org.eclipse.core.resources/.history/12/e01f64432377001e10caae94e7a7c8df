@@ -1,0 +1,59 @@
+package com.system.billing.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import com.system.billing.models.Bed;
+import com.system.billing.services.BedService;
+
+
+@Controller
+@RequestMapping("/patient")
+public class BedController {
+    @Autowired
+    BedService bedService;
+    
+    @GetMapping("/bedList")
+    public String listBed(Model model) { 
+        model.addAttribute("bed", bedService.getAllBed());
+        return "bedList";
+    }
+
+    
+    @GetMapping("/addBed")
+    public String showAddBed(Model model) {
+        model.addAttribute("bed", new Bed());
+        return "addBed";
+    }
+    
+    @PostMapping("/addBed")
+    public String addBeds(@ModelAttribute("bed") Bed bd) {
+      bedService.addBed(bd);
+      return "redirect:/patient/bedList";
+  }
+    
+    @GetMapping("/editBed/{bedNo}")
+    public String showEditBed(@PathVariable int bedid, Model model) {
+        Bed bd = bedService.getBedById(bedid);
+        model.addAttribute("bed", bd);
+       //model.addAttribute("bedNo",bedNo);
+        return "editBed";
+    }
+ 
+    @PostMapping("/editBed")
+    public String editBeds(Bed bd) {
+       
+            bedService.update(bd);
+            
+              return "redirect:/patient/bedList";}
+    
+    
+    @GetMapping("/deleteBed/{bedNo}")
+    public String deleteBeds(@PathVariable long bedNo) {
+        bedService.deleteBed(bedNo);
+        return "redirect:/patient/bedList";
+    }
+
+}

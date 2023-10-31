@@ -1,0 +1,41 @@
+package pizzaHut;
+
+//import java.text.SimpleDateFormat;
+//import java.util.*;
+public class Customer {
+	private int custNo;
+	private String custName;
+	private String custAddr;
+	private static int billNo;
+
+	static {
+		// Static initialization block
+		billNo = 1000; // Initialize billNo to a starting value
+	}
+
+	public Customer() {
+		// Default constructor
+		custNo = 0;
+		custName = "Ram";
+		custAddr = "";
+	}
+
+	public Customer(int custNo, String custName, String custAddr) {
+		// Parameterized constructor
+		this.custNo = custNo;
+		this.custName = custName;
+		this.custAddr = custAddr;
+	}
+
+	public static void printBillNo() {
+		// Static method to print bill number
+		System.out.println("Bill No: " + billNo);
+	}
+
+	public void display() {
+		// Display customer details
+		System.out.println("Customer No:" + custNo);
+		System.out.println("Customer Name: " + custName);
+		System.out.println("Address: " + custAddr);
+	}
+}

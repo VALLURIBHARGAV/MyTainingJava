@@ -1,0 +1,39 @@
+package com.system.billing.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfiguration {
+
+    
+    @SuppressWarnings("removal")
+	protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/operator/**").hasRole("OPERATOR")
+                        .requestMatchers("/doctor/**").hasRole("DOCTOR")
+                        .requestMatchers("/login").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(login -> {
+                    try {
+                        login
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/dashboard")
+                                .permitAll()
+                                .and()
+                                .logout(logout -> logout
+                                        .logoutUrl("/logout")
+                                        .permitAll());
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                });
+    }
+}

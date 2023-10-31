@@ -1,0 +1,115 @@
+package com.system.billing.controllers;
+
+
+import com.system.billing.models.Bill;
+import com.system.billing.models.User;
+import com.system.billing.services.BillService;
+import com.system.billing.services.PatientService;
+
+import jakarta.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/bills")
+public class BillController {
+	@Autowired
+    BillService billService;
+	@Autowired
+	PatientService patientService;
+    
+
+    @GetMapping
+    public String listBills(Model model,HttpSession session) {
+    	User user = (User) session.getAttribute("user");
+		if (user != null && ("ADMIN".equals(user.getRole()) || "OPERATOR".equals(user.getRole()) ) ) {
+        model.addAttribute("bills", billService.getAllBills());
+        return "listbill";
+		}else {
+			return "accessDenied";
+		}
+		
+    }
+
+    @GetMapping("/{id}")
+    public String viewBill(@PathVariable int id, Model model,HttpSession session) {
+    	User user = (User) session.getAttribute("user");
+		if (user != null && ("ADMIN".equals(user.getRole()) || "OPERATOR".equals(user.getRole()) ) ) {
+        Bill bill = billService.getBillById(id).orElse(null);
+        model.addAttribute("bill", bill);
+        return "viewbill";
+		}else{
+        	return "accessDenied";
+        }
+    }
+
+    @GetMapping("/add")
+    public String addBillForm(Model model, HttpSession session) {
+    	User user = (User) session.getAttribute("user");
+		if (user != null && ("ADMIN".equals(user.getRole()) || "OPERATOR".equals(user.getRole()) ) ) {
+        model.addAttribute("bill", new Bill());
+        return "addbill";
+		} else {
+			return "accessDenied";
+		}
+    }
+
+    @PostMapping("/add")
+    public String addBill(@ModelAttribute Bill bill) {
+        billService.generateBillForPatient(bill);
+        return "redirect:/bills";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editBillForm(@PathVariable int id, Model model, HttpSession session) {
+    	User user = (User) session.getAttribute("user");
+		if (user != null && ("ADMIN".equals(user.getRole()) || "OPERATOR".equals(user.getRole()) ) ) {
+        Bill bill = billService.getBillById(id).orElse(null);
+        model.addAttribute("bill", bill);
+        return "editbill";
+		}else{
+        	return "acccessDenied";
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editBill(@PathVariable int id, @ModelAttribute Bill bill) {
+        billService.updateBill(bill);
+        return "redirect:/bills";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteBill(@PathVariable int id,HttpSession session) {
+    	User user = (User) session.getAttribute("user");
+		if (user != null && ("ADMIN".equals(user.getRole()) || "OPERATOR".equals(user.getRole()) ) ) {
+        billService.deleteBill(id);
+        return "redirect:/bills";
+		}else{
+        	return "acccessDenied";
+        }
+    }
+    
+//    
+//    
+    @GetMapping("/generateBill")
+    public String displayBill() {
+    	return "generatebill";
+    }
+    @GetMapping("/generateBill")
+    public String generateBillForPatient(@RequestParam("patient") int patient,Model model) {
+    	Iterable<Bill> bill = billService.getAllBills();
+    	for(Bill b:bill) {
+    		if(b.getPatient().getId()==patient) {
+    			model.addAttribute("bill",b);
+    		}
+    	}
+
+
+        return "generatebill";
+    }
+}
+
+

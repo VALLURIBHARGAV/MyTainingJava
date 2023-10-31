@@ -1,0 +1,12 @@
+package com.example.demo.repositories;
+
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.example.demo.entities.Account;
+
+public interface AccountRespository extends CrudRepository<Account, Long>{
+	Account findByAccountNumber(String accountNumber);
+
+	Account findByUserId(long id);
+}

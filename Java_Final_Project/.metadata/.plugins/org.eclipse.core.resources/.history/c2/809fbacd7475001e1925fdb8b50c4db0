@@ -1,0 +1,56 @@
+package com.system.exchange.controllers;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping("/converts")
+public class CurrencyConversionController {
+
+    @PostMapping
+    public ModelAndView convertCurrency(
+        @RequestParam("amount") double amount,
+        @RequestParam("fromCurrency") String fromCurrency,
+        @RequestParam("toCurrency") String toCurrency
+    ) {
+        // Implement the currency conversion logic here
+        // You can use exchange rate data, APIs, or your own conversion method
+
+        // Calculate the converted amount
+        double convertedAmount = calculateConversion(amount, fromCurrency, toCurrency);
+
+        ModelAndView modelAndView = new ModelAndView("convertedCurrency");
+        modelAndView.addObject("convertedAmount", convertedAmount);
+
+        return modelAndView;
+    }
+
+    private double calculateConversion(double amount, String fromCurrency, String toCurrency) {
+        // Define conversion rates (you should load these from a data source or API)
+        Map<String, Double> conversionRates = new HashMap<>();
+        conversionRates.put("USD", 1.0); // 1 USD = 1 USD
+        conversionRates.put("EUR", 0.85); // 1 USD = 0.85 EUR
+        conversionRates.put("INR", 0.012);
+        // Add more rates for other currencies as needed
+
+        // Check if conversion rates exist for the given currencies
+        if (conversionRates.containsKey(fromCurrency) && conversionRates.containsKey(toCurrency)) {
+            double fromRate = conversionRates.get(fromCurrency);
+            double toRate = conversionRates.get(toCurrency);
+
+            // Calculate the converted amount
+            double convertedAmount = amount * (toRate / fromRate);
+            return convertedAmount;
+        } else {
+            // Handle the case when conversion rates are not available for the given currencies
+            throw new IllegalArgumentException("Conversion rates are not available for the specified currencies.");
+        }
+    }
+
+}

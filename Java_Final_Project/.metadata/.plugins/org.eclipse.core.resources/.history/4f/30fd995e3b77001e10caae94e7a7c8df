@@ -1,0 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin Dashboard</title>
+</head>
+<body>
+<h1>ADMIN DASHBOARD</h1>
+<h1>Admin page</h1>
+<a href="/admin/dashboard/addUser"><button>Add New User</button></a><br/>
+
+<a href="/adddoc"><button>Add Doctor</button></a>
+<a href="/listdoc"><button>View Doctors</button></a>
+<a href="/addBed"><button>Add Bed</button></a>
+<a href="/bedList"><button>View Beds</button></a>
+
+<a href="/PBS/login"><button>Logout</button></a>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Bill</title>
+</head>
+<body>
+    <h1>Edit Bill</h1>
+    <form:form action="<c:url value='/bills/edit/${bill.id}'/>" modelAttribute="bill" method="post">
+        <form:hidden path="id" />
+        <label for="billNumber">Bill Number:</label>
+        <form:input path="billNumber" required="true" /><br><br>
+        <label for="billDate">Bill Date:</label>
+        <form:input path="billDate" required="true" /><br><br>
+        <label for="amount">Amount:</label>
+        <form:input path="amount" required="true" /><br><br>
+        <input type="submit" value="Update Bill">
+    </form:form>
+    <a href="<c:url value='/bills'/>">Back to List</a>
+</body>
+</html>

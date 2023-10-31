@@ -1,0 +1,38 @@
+package com.system.exchange.services;
+
+import com.system.exchange.Repositories.CurrencyRepository;
+import com.system.exchange.model.Currencies;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class CurrencyService {
+
+    @Autowired
+    private CurrencyRepository currencyRepository;
+
+    public List<Currencies> getAllCurrencies() {
+        return currencyRepository.findAll();
+    }
+
+    public Optional<Currencies> getCurrencyByCode(String code) {
+        return currencyRepository.findById(code);
+    }
+
+    public Currencies createCurrency(Currencies currency) {
+        return currencyRepository.save(currency);
+    }
+
+    public Currencies updateCurrency(Currencies currency) {
+        return currencyRepository.save(currency);
+    }
+
+    public void deleteCurrency(String code) {
+        currencyRepository.deleteById(code);
+    }
+}

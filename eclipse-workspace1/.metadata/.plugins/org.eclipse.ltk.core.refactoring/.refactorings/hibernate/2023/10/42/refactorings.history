@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;hibernate/src/main/hibernate.properties&apos; to &apos;resources&apos;" description="Rename resource &apos;hibernate.properties&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/hibernate.properties" name="resources" stamp="1697865454137" updateReferences="true"/>
+</session>

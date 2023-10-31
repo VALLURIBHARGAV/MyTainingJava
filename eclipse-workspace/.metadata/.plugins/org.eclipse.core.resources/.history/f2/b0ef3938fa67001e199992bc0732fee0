@@ -1,0 +1,80 @@
+/*
+1. Create a class Student having following members.
+private ArrayList names – Arraylist of String type
+public void setNames() – method to scan names of student and set in names arraylist
+public void searchName(String name) – method to search a student by name
+public void searchName(int index) – method to print student name at an index
+public void printNames( ) – method to print all names using Iterator
+public void removeName( String stuName ) – method to delete a name
+Create a class ArrayListDemo having main method. Create an object of Student class and
+call all methods.*/
+package collectionsAssignment;
+
+import java.util.*;
+
+class Student {
+   private ArrayList<String> names = new ArrayList<>();
+
+   public void setNames() {
+       Scanner sc = new Scanner(System.in);
+       System.out.println("Enter the names of students and after entering all"
+       		+ " names (enter 'done' to finish):");
+
+       while (true) {
+           String name = sc.nextLine();
+           if (name.equalsIgnoreCase("done")) {
+               break;
+           }
+           names.add(name);
+       }
+       sc.close();
+   }
+   
+
+   public void searchName(String name) {
+       if (names.contains(name)) {
+           System.out.println(name + " is present in the list of students");
+       } else {
+           System.out.println(name + " is not found in the list of students");
+       }
+   }
+
+   public void searchName(int index) {
+       if (index >= 0 && index < names.size()) {
+           System.out.println("Student at index " + index + ": " + names.get(index));
+       } else {
+           System.out.println("Invalid index");
+       }
+   }
+
+   public void printNames() {
+       System.out.println("List of students:");
+       Iterator<String> iterator = names.iterator();
+       while (iterator.hasNext()) {
+           System.out.println(iterator.next());
+       }
+   }
+
+   public void removeName(String stuName) {
+       if (names.contains(stuName)) {
+           names.remove(stuName);
+           System.out.println(stuName + " Removed from the list");
+       } else {
+           System.out.println(stuName + " Not found in the list");
+       }
+   }
+   
+}
+
+public class ArrayListDemo {
+   public static void main(String[] args) {
+       Student student = new Student();
+       student.setNames();
+       student.searchName("rajesh");
+       student.searchName(2);
+       student.printNames();
+       student.removeName("ravi");
+       student.printNames();
+   }
+}
+

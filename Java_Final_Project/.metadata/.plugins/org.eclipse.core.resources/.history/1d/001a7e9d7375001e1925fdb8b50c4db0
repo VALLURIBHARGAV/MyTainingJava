@@ -1,0 +1,11 @@
+package com.system.exchange.Repositories;
+
+
+
+import com.system.exchange.model.Currencies;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CurrencyRepository extends JpaRepository<Currencies, String> {
+    // You can add custom query methods if needed
+}
+

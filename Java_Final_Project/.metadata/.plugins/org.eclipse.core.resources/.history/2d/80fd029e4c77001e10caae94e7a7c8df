@@ -1,0 +1,67 @@
+package com.system.billing.controllers;
+
+package com.system.billing.controllers;
+
+import com.system.billing.models.Bill;
+import com.system.billing.services.BillService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequestMapping("/bills")
+public class BillController {
+	@Autowired
+    BillService billService;
+
+    
+    public BillController(BillService billService) {
+        this.billService = billService;
+    }
+
+    @GetMapping
+    public String listBills(Model model) {
+        model.addAttribute("bills", billService.getAllBills());
+        return "bill/list";
+    }
+
+    @GetMapping("/{id}")
+    public String viewBill(@PathVariable int id, Model model) {
+        Bill bill = billService.getBillById(id).orElse(null);
+        model.addAttribute("bill", bill);
+        return "bill/view";
+    }
+
+    @GetMapping("/add")
+    public String addBillForm(Model model) {
+        model.addAttribute("bill", new Bill());
+        return "bill/add";
+    }
+
+    @PostMapping("/add")
+    public String addBill(@ModelAttribute Bill bill) {
+        billService.createBill(bill);
+        return "redirect:/bills";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editBillForm(@PathVariable int id, Model model) {
+        Bill bill = billService.getBillById(id).orElse(null);
+        model.addAttribute("bill", bill);
+        return "bill/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editBill(@PathVariable int id, @ModelAttribute Bill bill) {
+        billService.updateBill(bill);
+        return "redirect:/bills";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteBill(@PathVariable int id) {
+        billService.deleteBill(id);
+        return "redirect:/bills";
+    }
+}
+

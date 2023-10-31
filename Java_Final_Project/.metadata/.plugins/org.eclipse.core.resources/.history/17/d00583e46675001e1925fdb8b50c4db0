@@ -1,0 +1,38 @@
+package com.system.exchange.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping("/converts")
+public class CurrencyConversionController {
+
+    @PostMapping
+    public ModelAndView convertCurrency(
+        @RequestParam("amount") double amount,
+        @RequestParam("fromCurrency") String fromCurrency,
+        @RequestParam("toCurrency") String toCurrency
+    ) {
+        // Implement the currency conversion logic here
+        // You can use exchange rate data, APIs, or your own conversion method
+
+        // Calculate the converted amount
+        double convertedAmount = calculateConversion(amount, fromCurrency, toCurrency);
+
+        ModelAndView modelAndView = new ModelAndView("convertedCurrency");
+        modelAndView.addObject("convertedAmount", convertedAmount);
+
+        return modelAndView;
+    }
+
+    private double calculateConversion(double amount, String fromCurrency, String toCurrency) {
+        // Implement the actual conversion logic here
+        // You can use external APIs or data sources to get exchange rates
+        // For simplicity, we'll assume a simple conversion here
+        double conversionRate = 1.0; // 1:1 conversion for simplicity
+        return amount * conversionRate;
+    }
+}

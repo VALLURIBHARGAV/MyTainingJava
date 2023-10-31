@@ -1,0 +1,17 @@
+package Practice;
+
+
+public class CustomerReport {
+	
+	private Customer [] custList;
+	int size;
+	public void addCustomer() {
+		for(int i=0;i<=size;i++) {
+			
+		}
+	}
+	
+	
+}
+	
+	

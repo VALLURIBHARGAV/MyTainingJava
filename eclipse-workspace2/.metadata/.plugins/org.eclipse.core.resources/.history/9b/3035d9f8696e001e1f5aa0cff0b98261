@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Banking App</title>
+</head>
+<body>
+	<h1>Welcome to Holland Bank </h1>
+	<a href="LoginAccount.jsp"><button>Login Account</button></a> &nbsp; &nbsp;
+	<a href="RegisterAccount.jsp"><button>Register Account</button></a>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+package com.system.billing.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import com.system.billing.models.Bed;
+import com.system.billing.services.BedService;
+
+
+@Controller
+public class BedController {
+    @Autowired
+    BedService bedService;
+    
+    @GetMapping("/list")
+    public String listBed(Model model) { 
+        model.addAttribute("bed", bedService.getAllBeds());
+        return "displayview";
+    }
+
+    
+    @GetMapping("/add")
+    public String showAddBed(Model model) {
+        model.addAttribute("bed", new Bed());
+        return "addBed";
+    }
+    
+    @PostMapping("/add")
+    public String addBeds(@ModelAttribute("bed") Bed bd) {
+      bedService.addBed(bd);
+      return "redirect:/list";
+  }
+    
+    @GetMapping("/edit/{bedNo}")
+    public String showEditBed(@PathVariable long bedNo, Model model) {
+        Bed bd = bedService.getBedById(bedNo);
+        model.addAttribute("bed", bd);
+        model.addAttribute("bedeNo",bedNo);
+        return "edit";
+    }
+ 
+    @PostMapping("/edit")
+    public String editBeds(Bed bd) {
+       
+            bedService.updateBed(bd);
+            
+              return "redirect:/list";}
+    
+    
+    @GetMapping("/delete/{id}")
+    public String deleteBeds(@PathVariable long id) {
+        bedService.deleteBed(id);
+        return "redirect:/list";
+    }
+
+}

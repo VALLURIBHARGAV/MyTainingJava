@@ -1,0 +1,170 @@
+package com.assignment.hibernateTest;
+
+import java.util.List;
+import java.util.Scanner;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import com.assignment.config.HibernateConfig;
+import com.assignment.entities.Address;
+import com.assignment.entities.Employee;
+
+public class App {
+	private static void insertEmployee(Scanner scanner) {
+        System.out.print("Enter first name: ");
+        String EmpName = scanner.nextLine();
+
+        System.out.print("Enter last name: ");
+        Double Salary = scanner.nextDouble();
+
+
+        Employee employee = new Employee();
+        employee.setEmpName(EmpName);
+        employee.setSalary(Salary);
+        
+
+        saveEmployee(employee);
+    }
+	private static void updateEmployee(Scanner scanner) {
+        System.out.print("Enter the ID of the employee to update: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume the newline character
+
+        SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+  	    Session session=sessionFactory.openSession();
+        session.beginTransaction();
+
+        Employee employee = session.get(Employee.class, id);
+
+        if (employee == null) {
+            System.out.println("Employee not found with ID " + id);
+        } else {
+            System.out.print("Enter new Employee Name: ");
+            employee.setEmpName(null);
+
+            System.out.print("Enter new Salary: ");
+            employee.setSalary(scanner.nextDouble());
+
+            session.merge(employee);
+            session.getTransaction().commit();
+            System.out.println("Employee updated successfully.");
+        }
+
+        session.close();
+    }
+
+    
+	private static void deleteEmployee(Scanner scanner) {
+        System.out.print("Enter the ID of the employee to delete: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume the newline character
+
+        SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+  	    Session session=sessionFactory.openSession();
+        session.beginTransaction();
+
+        Employee employee = session.get(Employee.class, id);
+
+        if (employee == null) {
+            System.out.println("Employee not found with ID " + id);
+        } else {
+            session.remove(employee);
+            session.getTransaction().commit();
+            System.out.println("Employee deleted successfully.");
+        }
+
+        session.close();
+    }
+
+    private static void searchEmployee(Scanner scanner) {
+        System.out.print("Enter a keyword to search for employees: ");
+        String keyword = scanner.nextLine();
+
+        SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+  	    Session session=sessionFactory.openSession();
+
+        Query query = session.createQuery("FROM Employee " +
+                "WHERE empName LIKE :keyword", Employee.class);
+        query.setParameter("keyword", "%" + keyword + "%");
+
+        List<Employee> employees = query.list();
+
+        if (employees.isEmpty()) {
+            System.out.println("No matching employees found.");
+        } else {
+            System.out.println("Matching Employees:");
+            for (Employee employee : employees) {
+                System.out.println(employee.getEmpId() + " - " + employee.getEmpName() +  " - " + employee.getSalary());
+            }
+        }
+
+        session.close();
+    }
+
+    public static void saveEmployee(Employee employee) {
+    	SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+  	    Session session=sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.persist(employee);
+
+        session.getTransaction().commit();
+        System.out.println("Employee saved successfully.");
+
+        session.close();
+    }
+  public static void main(String[] args) {
+//	  SessionFactory sessionFactory = HibernateConfig.getSessionFactoryObject();
+//	  Session session=sessionFactory.openSession();
+//	    Employee empObj = new Employee("Bhargav",35159);
+//		Address addObj = new Address("Chennai","India");
+//		empObj.setEmpAddress(addObj);
+//		Transaction trnx = session.beginTransaction();
+//		session.persist(empObj);
+//		session.persist(addObj);
+//		trnx.commit();
+//		session.close();
+//		System.out.println(empObj);
+	  
+	  Scanner scanner = new Scanner(System.in);
+      int choice;
+
+      do {
+          System.out.println("Choose an operation:");
+          System.out.println("1. Insert");
+          System.out.println("2. Update");
+          System.out.println("3. Delete");
+          System.out.println("4. Search");
+          System.out.println("0. Exit");
+          System.out.print("Enter your choice: ");
+          choice = scanner.nextInt();
+          scanner.nextLine();  // Consume the newline character
+
+          switch (choice) {
+              case 1:
+                  insertEmployee(scanner);
+                  break;
+              case 2:
+                  updateEmployee(scanner);
+                  break;
+              case 3:
+                  deleteEmployee(scanner);
+                  break;
+              case 4:
+                  searchEmployee(scanner);
+                  break;
+              case 0:
+                  System.out.println("Exiting...");
+                  break;
+              default:
+                  System.out.println("Invalid choice. Please try again.");
+          }
+      } while (choice != 0);
+
+      scanner.close();
+  }
+  }
+

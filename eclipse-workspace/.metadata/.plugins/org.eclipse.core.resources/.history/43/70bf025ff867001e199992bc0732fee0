@@ -1,0 +1,30 @@
+package collections;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class StudentSortDemo {
+    public static void main(String[] args) {
+ 
+        ArrayList<Student2> studentList = new ArrayList<>();
+
+        studentList.add(new Student2(101, "Bhargav"));
+        studentList.add(new Student2(102, "Krishna"));
+        studentList.add(new Student2(103, "Manoj"));
+        studentList.add(new Student2(104, "Tarun"));
+        studentList.add(new Student2(105, "Nikhil"));
+
+        System.out.println("Unsorted Student Data:");
+        for (Student2 student : studentList) {
+            System.out.println(student);
+        }
+
+       
+        Collections.sort(studentList);
+
+        System.out.println("\nSorted Student Data:");
+        for (Student2 student : studentList) {
+            System.out.println(student);
+        }
+    }
+}

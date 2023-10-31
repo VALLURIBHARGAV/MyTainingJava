@@ -1,0 +1,7 @@
+package jdbcDemos;
+
+import java.sql.*;
+public class JDBCDemo {
+	Connection con = null;
+	
+}

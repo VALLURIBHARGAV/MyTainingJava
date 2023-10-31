@@ -1,0 +1,35 @@
+package com.system.billing.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.system.billing.services.SessionService;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class LogoutController {
+
+    @Autowired
+    SessionService sessionService;
+
+    @GetMapping("/logout")
+//    public String logout(HttpServletRequest request) {
+//        HttpSession session = request.getSession(false);
+//
+//        if (session != null) {
+//            String username = (String) session.getAttribute("username");
+//            sessionService.removeUserSession(username);
+//            session.invalidate();
+//        }
+//
+//        return "redirect:/login?logout";
+//    }
+    
+    public String logout(HttpSession session) {
+        // Invalidate the session
+        session.invalidate();
+        return "redirect:/login?logout";
+    }
+}

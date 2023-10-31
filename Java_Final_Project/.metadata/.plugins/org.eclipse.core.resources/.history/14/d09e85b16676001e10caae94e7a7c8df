@@ -1,0 +1,71 @@
+package com.system.billing.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.system.billing.models.User;
+import com.system.billing.repositories.UserRepository;
+import com.system.billing.services.SessionService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class LoginController {
+
+	@Autowired
+    UserRepository userRepository; // UserRepository for fetching user details
+	@Autowired
+    private SessionService sessionService;
+
+   @GetMapping("/login")
+   public String login(HttpSession session) {
+       // Check if the user has a valid session (i.e., they are logged in)
+       String username = (String) session.getAttribute("username");
+       if (username == null) {
+           // Redirect to the login page
+           return "redirect:/login";
+       }
+       return "User Not Looged In";
+   }
+
+   @PostMapping("/login")
+   public String loginPost(@RequestParam String username, @RequestParam String password,HttpServletRequest request ) {
+       // Authenticate the user based on your logic (e.g., check username and password)
+       User user = userRepository.findByUsername(username);
+
+       if (user != null && user.getPassword().equals(password)) {
+    	   HttpSession session = request.getSession();
+    	   session.setAttribute("username", username); // Store the username in the session
+           sessionService.addUserSession(username, session); // Add the user's session to SessionService
+    	   String role = user.getRole();
+
+           if ("ADMIN".equals(role)) {
+               return "redirect:/admin/dashboard";
+           } else if ("OPERATOR".equals(role)) {
+               return "redirect:/operator/dashboard";
+           } else if ("DOCTOR".equals(role)) {
+               return "redirect:/doctor/dashboard";
+           }
+       }
+       return "Error";
+   }
+
+   @GetMapping("/admin/dashboard")
+   public String adminDashboard() {
+       return "adminDashboard"; // Return the admin dashboard page
+   }
+
+   @GetMapping("/operator/dashboard")
+   public String operatorDashboard() {
+       return "operatorDashboard"; // Return the operator dashboard page
+   }
+
+   @GetMapping("/doctor/dashboard")
+   public String doctorDashboard() {
+       return "doctorDashboard"; // Return the doctor dashboard page
+   }
+}

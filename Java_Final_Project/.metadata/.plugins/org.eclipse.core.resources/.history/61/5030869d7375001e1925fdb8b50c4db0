@@ -1,0 +1,47 @@
+package com.system.exchange.model;
+
+import jakarta.persistence.*;
+
+@Entity
+public class Currencies {
+
+    @Id
+    private String currencyCode;  
+    private String CurrencyName;  
+    private double exchangeRate;  
+
+    public Currencies() {
+        
+    }
+
+    public Currencies(String code, String name, String symbol, double exchangeRate) {
+        this.currencyCode = code;
+        this.CurrencyName = name;
+        this.exchangeRate = exchangeRate;
+    }
+
+    public String getCode() {
+        return currencyCode;
+    }
+
+    public void setCode(String code) {
+        this.currencyCode = code;
+    }
+
+    public String getName() {
+        return CurrencyName;
+    }
+
+    public void setName(String name) {
+        this.CurrencyName = name;
+    }
+
+    public double getExchangeRate() {
+        return exchangeRate;
+    }
+
+    public void setExchangeRate(double exchangeRate) {
+        this.exchangeRate = exchangeRate;
+    }
+}
+

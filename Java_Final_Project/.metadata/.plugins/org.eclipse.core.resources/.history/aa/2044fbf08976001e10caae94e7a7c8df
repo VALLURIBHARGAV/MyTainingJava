@@ -1,0 +1,52 @@
+package com.system.billing.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.system.billing.models.Patient;
+import com.system.billing.repositories.PatientRepository;
+ 
+
+
+
+
+@Service
+public class PatientService {
+    @Autowired
+    PatientRepository patientRepository;
+
+    
+    //list
+    public Iterable<Patient> getAllPatient() {
+        return patientRepository.findAll();
+    }
+    
+    //select
+    public Patient getPatientById(int id) {
+        return patientRepository.findById(id).orElse(null);
+    }
+    
+    
+    //insertion
+    public void addPatient(Patient patient) {
+        patientRepository.save(patient);
+        System.out.println("Patient Registered");
+    }
+    
+    public void updatePatient(int id, Patient updatedPatient) {
+           Patient existingBook = getPatientById(id);
+        if (existingBook != null) {
+            existingBook.setName(updatedPatient.getName());
+            existingBook.setGender(updatedPatient.getGender());
+            existingBook.setAge(updatedPatient.getAge());
+            existingBook.setHealthissue(updatedPatient.getHealthissue());
+            existingBook.setAddress(updatedPatient.getAddress());
+            patientRepository.save(existingBook);
+        }
+    }
+    
+    public void deletePatient(int id) {
+    	patientRepository.deleteById(id);
+    }
+    
+}

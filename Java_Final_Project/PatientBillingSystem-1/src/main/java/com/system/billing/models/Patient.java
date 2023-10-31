@@ -1,0 +1,133 @@
+package com.system.billing.models;
+
+import java.util.List;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "patients")  
+public class Patient {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "patid")  
+    private int id;
+
+    @Column(name = "name")
+    private String name;
+    
+    @Column(name = "gender")
+    private String gender;
+    
+    @Column(name = "age")
+    private int age;
+
+    @Column(name = "healthissue")
+    private String healthissue;
+
+    @Column(name = "address")
+    private String address;
+    
+    @ManyToOne
+    @JoinColumn(name = "docid")
+    private Doctor doctor;
+    
+    @OneToMany(mappedBy = "patient")
+    private List<Bed> beds;
+    
+    @ManyToOne
+    @JoinColumn(name = "patient")
+    private Bill bills;
+    
+    public Patient() {
+  
+    }
+
+    public Patient(String name, String gender, int age, String healthissue, String address) {
+		
+		this.name = name;
+		this.gender = gender;
+		this.age = age;
+		this.healthissue = healthissue;
+		this.address = address;
+	}
+
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getHealthissue() {
+		return healthissue;
+	}
+
+	public void setHealthissue(String healthissue) {
+		this.healthissue = healthissue;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+
+	public List<Bed> getBeds() {
+		return beds;
+	}
+
+	public void setBeds(List<Bed> beds) {
+		this.beds = beds;
+	}
+
+	public Bill getBills() {
+		return bills;
+	}
+
+	public void setBills(Bill bills) {
+		this.bills = bills;
+	}
+	
+	
+	
+	
+	
+	
+}
+

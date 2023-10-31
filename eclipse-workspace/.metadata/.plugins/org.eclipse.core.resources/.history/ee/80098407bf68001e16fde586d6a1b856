@@ -1,0 +1,116 @@
+package pizzaHut;
+
+public class Pizza {
+	private String type;
+    private String toppings;
+    private String name;
+    private float timeForPreparation;
+    private int costOfPizza;
+    private String size;
+
+    public Pizza(String type, String toppings, String name, float timeForPreparation, int costOfPizza, String size) {
+        // Parameterized constructor with validation
+        if (!type.equalsIgnoreCase("Veg") && !type.equalsIgnoreCase("Non-Veg")) {
+            System.out.println("Only Veg and Non-Veg type is allowed.");
+            return;
+        }
+
+        if (!size.equalsIgnoreCase("Small") && !size.equalsIgnoreCase("Medium")) {
+            System.out.println("Only small and medium size pizzas are available.");
+            return;
+        }
+
+        this.type = type;
+        this.toppings = toppings;
+        this.name = name;
+        this.timeForPreparation = timeForPreparation;
+        this.costOfPizza = costOfPizza;
+        this.size = size;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public int getCostOfPizza() {
+        return costOfPizza;
+    }
+
+    public float getTimeForPreparation() {
+        return timeForPreparation;
+    }
+
+    public abstract int calculateCost();
+
+    public String toString() {
+        return "Pizza Details: " +
+                "\nType: " + type +
+                "\nToppings: " + toppings +
+                "\nName: " + name +
+                "\nTime for Preparation: " + timeForPreparation +
+                "\nCost of Pizza: " + costOfPizza +
+                "\nSize: " + size;
+    }
+}
+
+class ItalianPizza extends Pizza {
+    public ItalianPizza(String type, String toppings, String name, float timeForPreparation, int costOfPizza, String size) {
+        super(type, toppings, name, timeForPreparation, costOfPizza, size);
+    }
+
+    @Override
+    public int calculateCost() {
+        int baseCost;
+        switch (getSize().toLowerCase()) {
+            case "small":
+                baseCost = getType().equalsIgnoreCase("Veg") ? 200 : 270;
+                break;
+            case "medium":
+                baseCost = getType().equalsIgnoreCase("Veg") ? 350 : 420;
+                break;
+            default:
+                System.out.println("Invalid size.");
+                return 0;
+        }
+
+        return baseCost + getCostOfPizza() + 30; // Adding toppings cost
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nTotal Cost: " + calculateCost();
+    }
+}
+
+class MexicanPizza extends Pizza {
+    public MexicanPizza(String type, String toppings, String name, float timeForPreparation, int costOfPizza, String size) {
+        super(type, toppings, name, timeForPreparation, costOfPizza, size);
+    }
+
+    @Override
+    public int calculateCost() {
+        int baseCost;
+        switch (getSize().toLowerCase()) {
+            case "small":
+                baseCost = getType().equalsIgnoreCase("Veg") ? 220 : 290;
+                break;
+            case "medium":
+                baseCost = getType().equalsIgnoreCase("Veg") ? 370 : 440;
+                break;
+            default:
+                System.out.println("Invalid size.");
+                return 0;
+        }
+
+        return baseCost + getCostOfPizza() + 40; // Adding toppings cost
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nTotal Cost: " + calculateCost();
+    }}
+

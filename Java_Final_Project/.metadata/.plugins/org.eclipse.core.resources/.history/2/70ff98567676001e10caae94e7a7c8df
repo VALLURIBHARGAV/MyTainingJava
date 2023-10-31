@@ -1,0 +1,26 @@
+package com.system.billing.services;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.stereotype.Service;
+
+import jakarta.servlet.http.HttpSession;
+
+@Service
+public class SessionService {
+    private final Map<String, HttpSession> userSessions = new ConcurrentHashMap<>();
+
+    public void addUserSession(String username, HttpSession session) {
+        userSessions.put(username, session);
+    }
+
+    public void removeUserSession(String username) {
+        userSessions.remove(username);
+    }
+
+    public Collection<HttpSession> getActiveSessions() {
+        return userSessions.values();
+    }
+}

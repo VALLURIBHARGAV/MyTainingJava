@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Entry Page</title>
+</head>
+<body>
+<h1>Enter Your Details to Insert to Supplier</h1>
+
+<h2>Part Entry Form</h2>
+<form action="/ProductApp/AddServlet" method="post">
+	Part ID : <input type="text" name="pid" required/><br>
+	Part Name : <input type="text" name="pname" required/><br>
+	Color: <select name="color">
+		<option>Red</option>
+		<option>Black</option>
+		<option>Blue</option>
+		<option>Violet</option>
+		<option>Orange</option>
+	</select>
+	<input type="submit" value="Add">
+</form>
+
+
+</body>
+</html>

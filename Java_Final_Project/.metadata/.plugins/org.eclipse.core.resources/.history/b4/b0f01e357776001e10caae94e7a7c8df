@@ -1,0 +1,20 @@
+package com.system.billing.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.HttpSession;
+import com.system.billing.models.User;
+
+@Controller
+public class AdminController {
+
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user != null && "ADMIN".equals(user.getRole())) {
+            return "adminDashboard";
+        } else {
+            return "accessDenied"; // Handle unauthorized access
+        }
+    }
+}

@@ -1,0 +1,47 @@
+/*
+ * Create a class TestTreeSet having main method. Perform following functionality:
+ Create a TreeSet having name Product of type String.
+ Store different product names. Try to add duplicate product names.
+ Print all product names using iterator.
+ Print the first and last product names
+ Print the size of TreeSet
+ Remove a particular product from TreeSet
+ Again verify the size of TreeSet */
+package collections;
+
+import java.util.*;
+
+public class TestTreeSet {
+    public static void main(String[] args) {
+      
+        TreeSet<String> productTreeSet = new TreeSet<>();
+
+        productTreeSet.add("Laptop");
+        productTreeSet.add("Mobile");
+        productTreeSet.add("Tablet");
+        productTreeSet.add("Laptop"); 
+        productTreeSet.add("Smartwatch");
+        productTreeSet.add("Headphones");
+        productTreeSet.add("Tablet"); 
+        productTreeSet.add("Refridgerator");
+        productTreeSet.add("Washing Machine");
+        productTreeSet.add("Ear Buds");
+      
+        System.out.println("All product names:");
+        Iterator<String> iterator = productTreeSet.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
+        System.out.println("First product: " + productTreeSet.first());
+        System.out.println("Last product: " + productTreeSet.last());
+
+        System.out.println("Size of TreeSet: " + productTreeSet.size());
+
+        String productToRemove = "Tablet";
+        productTreeSet.remove(productToRemove);
+        System.out.println("Removed product: " + productToRemove);
+
+        System.out.println("Size of TreeSet after removal: " + productTreeSet.size());
+    }
+}

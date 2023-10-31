@@ -1,0 +1,67 @@
+package pizzaHut;
+
+public class Pizza {
+	private String type;
+    private String[] toppings;
+    private String name;
+    private float timeForPreparation;
+
+    // Constructor with type validation
+    public Pizza(String type, String[] toppings, String name, float timeForPreparation) {
+        if (isValidType(type)) {
+            this.type = type;
+        } else {
+            System.out.println("Invalid type");
+            return; 
+        }
+
+        this.toppings = toppings;
+        this.name = name;
+        this.timeForPreparation = timeForPreparation;
+    }
+
+    
+    private boolean isValidType(String type) {
+        return type.equalsIgnoreCase("veg") || type.equalsIgnoreCase("non-veg");
+    }
+
+   
+    @Override
+    public String toString() {
+        StringBuilder toppingsString = new StringBuilder();
+        for (String topping : toppings) {
+            toppingsString.append(topping).append(", ");
+        }
+
+        return "Pizza Details:\n" +
+                "Type: " + type + "\n" +
+                "Toppings: " + (toppings.length > 0 ? toppingsString.substring(0, toppingsString.length() - 2) : "No toppings") + "\n" +
+                "Name: " + name + "\n" +
+                "Time for Preparation: " + timeForPreparation + " minutes";
+    }
+}
+
+//ItalianPizza class inheriting Pizza
+class ItalianPizza extends Pizza {
+ public ItalianPizza(String[] toppings, String name, float timeForPreparation) {
+     super("Italian", toppings, name, timeForPreparation);
+ }
+
+ @Override
+ public String toString() {
+     return "Italian Pizza details are: " + super.toString();
+ }
+}
+
+//MexicanPizza class inheriting Pizza
+class MexicanPizza extends Pizza {
+ public MexicanPizza(String[] toppings, String name, float timeForPreparation) {
+     super("Mexican", toppings, name, timeForPreparation);
+ }
+
+ @Override
+ public String toString() {
+     return "Mexican Pizza details are: " + super.toString();
+ }
+}
+

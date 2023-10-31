@@ -1,0 +1,5 @@
+package com.system.exchange.controllers;
+
+public class CurrencyController {
+
+}

@@ -1,0 +1,85 @@
+package com.system.billing.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.system.billing.models.Patient;
+import com.system.billing.services.PatientService;
+ 
+
+
+@Controller
+@RequestMapping("/patient")
+public class PatientController {
+	
+	@Autowired
+	PatientService service;
+	
+	
+	
+	@GetMapping({"/", "list"})
+	public String viewAllPatients(Model model, @ModelAttribute("message") String message) {
+		model.addAttribute("patients", service.getAllPatients());
+		model.addAttribute("message", message);
+		
+		return "PatientList";
+	}
+
+	@GetMapping("/addPatient")
+	public String addPatient(Model model) {
+		model.addAttribute("patient", new Patient());
+		
+		return "addPatientForm";
+	}
+
+	@PostMapping("/savePatient")
+	public String saveToDoItem(Patient patient, RedirectAttributes redirectAttributes) {
+		if(service.saveOrUpdatePatient(patient)) {
+			redirectAttributes.addFlashAttribute("message", "Save Success");
+			return "redirect:/patient/list";
+		}
+		
+		redirectAttributes.addFlashAttribute("message", "Save Failure");
+		return "redirect:/patient/addPatient";
+	}
+	
+	@GetMapping("/editPatient/{id}")
+	public String editPatient(@PathVariable int id, Model model) {
+		model.addAttribute("patient", service.getPatientById(id));
+		
+		return "editPatientForm";
+	}
+
+	@PostMapping("/editSavePatient")
+	public String editSavePatient(Patient patient, RedirectAttributes redirectAttributes) {
+		if(service.saveOrUpdatePatient(patient)) {
+			redirectAttributes.addFlashAttribute("message", "Edit Success");
+			return "redirect:/patient/list";
+		}
+		
+		redirectAttributes.addFlashAttribute("message", "Edit Failure");
+		return "redirect:/patient/editPatient/" + patient.getId();
+	}
+	
+	@GetMapping("/deletePatient/{id}")
+	public String deletePatient(@PathVariable int id, RedirectAttributes redirectAttributes) {
+		if (service.deletePatient(id)) {
+			redirectAttributes.addFlashAttribute("message", "Delete Success");
+			return "redirect:/patient/list";
+		}
+		
+		redirectAttributes.addFlashAttribute("message", "Delete Failure");
+		return "redirect:/patient/list";
+	}
+
+
+
+	
+}

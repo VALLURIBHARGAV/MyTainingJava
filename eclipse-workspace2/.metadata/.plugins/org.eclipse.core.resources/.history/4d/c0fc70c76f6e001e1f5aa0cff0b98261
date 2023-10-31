@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1" import="java.sql.*" import="javax.naming.*" import="javax.sql.*"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<%
+    String amountStr = request.getParameter("amount");
+    if (amountStr != null && !amountStr.isEmpty()) {
+        double amount = Double.parseDouble(amountStr);
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            // Get a database connection from a DataSource (configured in your server)
+            Context initContext = new InitialContext();
+            DataSource ds = (DataSource) initContext.lookup("java:/comp/env/jdbc/yourDataSource");
+            conn = ds.getConnection();
+
+            String sql = "INSERT INTO deposits (amount, deposit_date) VALUES (?, NOW())";
+            stmt = conn.prepareStatement(sql);
+            stmt.setDouble(1, amount);
+            stmt.executeUpdate();
+    %>
+            <p>Deposit of $<%= amount %> added successfully!</p>
+    <%
+        } catch (Exception e) {
+    %>
+            <p>Error: <%= e.getMessage() %></p>
+    <%
+        } finally {
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        }
+    } else {
+    %>
+        <p>Please enter a valid amount.</p>
+    <%
+    }
+    %>
+    <a href="deposit.jsp">Back to Deposit Form</a>
+
+</body>
+</html>

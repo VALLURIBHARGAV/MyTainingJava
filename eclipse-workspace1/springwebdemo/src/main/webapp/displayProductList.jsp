@@ -1,0 +1,39 @@
+<%@page import="com.example.demo.models.Product"%>
+<%@page import="java.util.List"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Product List Page</title>
+</head>
+<body>
+	<%-- <%
+	List<Product> list = (List<Product>) request.getAttribute("productList");
+	%> --%>
+	<table>
+		<thead>
+			<tr>
+				<td>Product Id</td>
+				<td>Product Name</td>
+				<td>Product Price</td>
+			</tr>
+			<%-- <%for(Product p:list) {%>
+<tr> 
+<td><%=p.getPrdId()%></td>
+<td><%=p.getPrdName()%></td>
+<td><%=p.getPrdPrice()%></td>
+</tr>
+<%}%> --%>
+			<tr>
+				<c:forEach items="${productList}" var="item">
+					<td><c:out value="${item.prdId}"></c:out><td>
+					<td><c:out value="${item.prdName}"></c:out><td>
+					<td><c:out value="${item.prdPrice}"></c:out><td>
+			</tr>
+			</c:forEach>
+	</table>
+</body>
+</html>
